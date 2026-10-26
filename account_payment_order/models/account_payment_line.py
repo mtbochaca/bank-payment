@@ -197,7 +197,7 @@ class AccountPaymentLine(models.Model):
             "destination_account_id": self.move_line_id.account_id.id,
             "company_id": self.order_id.company_id.id,
             "amount": sum(self.mapped("amount_currency")),
-            "date": fields.Date.context_today(self),
+            "date": self[:1].date or fields.Date.context_today(self),
             "currency_id": self.currency_id.id,
             "memo": self.order_id.name,
             # Put the name as the wildcard for forcing a unique name. If not, Odoo gets
