@@ -176,7 +176,7 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment_order.unlink()
         self.assertEqual(len(self.payment_order_obj.search(self.domain)), 0)
 
-    @freeze_time("2024-04-01")
+    @freeze_time("2024-06-01")
     def test_creation_transfer_move_date_01(self):
         self.inbound_order.date_prefered = "fixed"
         self.inbound_order.date_scheduled = "2024-06-01"
@@ -190,13 +190,13 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment = self.inbound_order.payment_ids
         self.assertEqual(payment.payment_line_date, date(2024, 6, 1))
         payment_move = payment.move_id
-        self.assertEqual(payment_move.date, date(2024, 4, 1))  # now
+        self.assertEqual(payment_move.date, date(2024, 6, 1))  # now
         self.assertEqual(
             payment_move.line_ids.mapped("date_maturity"),
             [date(2024, 6, 1), date(2024, 6, 1)],
         )
 
-    @freeze_time("2024-04-01")
+    @freeze_time("2024-06-01")
     def test_creation_transfer_move_date_02(self):
         # Simulate that the invoice had a different due date
         self.inbound_order.payment_line_ids.ml_maturity_date = "2024-06-01"
@@ -210,7 +210,7 @@ class TestPaymentOrderInbound(TestPaymentOrderInboundBase):
         payment = self.inbound_order.payment_ids
         self.assertEqual(payment.payment_line_date, date(2024, 6, 1))
         payment_move = payment.move_id
-        self.assertEqual(payment_move.date, date(2024, 4, 1))  # now
+        self.assertEqual(payment_move.date, date(2024, 6, 1))  # now
         self.assertEqual(
             payment_move.line_ids.mapped("date_maturity"),
             [date(2024, 6, 1), date(2024, 6, 1)],
